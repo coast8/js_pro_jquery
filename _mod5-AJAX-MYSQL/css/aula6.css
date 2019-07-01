@@ -1,0 +1,5 @@
+*{font:16px "Trebuchet MS", Arial, Helvetica, sans-serif;}
+body{height:1500px; background:url(../img/bg5.jpg) repeat;}
+
+.j_result{padding:40px; background:#CCC; text-align:center; color:#FFF; margin-bottom:10px; font-size:18px;}
+.scroll{padding:5px; background:#9C3; position:fixed; top:50%; width:200px;}

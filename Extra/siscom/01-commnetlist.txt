@@ -1,0 +1,98 @@
+<style type="text/css">
+body{background:#fff; padding:30px;}
+</style>
+CSS COMMENT LIST PAGES.CSS 67 - 94
+.single .content .gallery{float:left; width:660px; list-style:none; margin:0; padding:0; margin-top:20px;}
+.single .content .gallery li{float:left;}
+.single .content .gallery li a{padding:10px; background:#000; float:left;}
+.single .content .gallery li a:hover{background:#09F;}
+.single .content .gallery li img{float:left;}
+.single .content .gallery .right{float:right;}
+.single .content .gallery .left{float:left;}
+
+.single .comments h3{font-size:50px; font-weight:400; color:#fff; padding:20px; background:#000; margin:20px 0 0 0;}
+.single .comments h3 a{float:right; font-size:20px; text-transform:uppercase; padding:20px 40px; background:#06F; text-decoration:none; font-weight:bold; color:#FFF;}
+.single .comments h3 a:hover{background:#F60;}
+.single .comments .commentlist{list-style:none; float:left; width:700px;}
+.single .comments .commentlist .li{padding:20px; border-bottom:20px solid #999; float:left; widows:660px;}
+.single .comments .commentlist .li:last-child{border:none;}
+
+.single .comments .commentlist .li .user{float:left; margin-bottom:20px; width:660px;}
+.single .comments .commentlist .li .user img{float:left; padding:5px; background:#06F; margin-right:10px;}
+.single .comments .commentlist .li .user .info{width:570px; float:right; background:#fbfbfb; font-size:20px;}
+.single .comments .commentlist .li .user .info strong{background:#333; color:#FFF; padding:22px; float:left; font-weight:200;}
+.single .comments .commentlist .li .user .info span{float:left; padding:22px 10px;}
+.single .comments .commentlist .li p{display:block; margin:10px 0 0 0; font-size:14px;}
+
+.single .comments .commentlist .resposta{float:left; width:660px; list-style:none; list-style:none;}
+.single .comments .commentlist .resposta li{padding:20px; width:620px; margin:20px 0 0; float:left; background:#C6E2FF;}
+.single .comments .commentlist .resposta .user{float:left; margin-bottom:20px; width:620px;}
+.single .comments .commentlist .resposta .add{background:#fff;}
+.single .comments .commentlist .resposta .admin{background:#666; color:#fff;}
+.single .comments .commentlist .resposta .user .info{width:560px; float:left; background:#fff; font-size:16px;}
+.single .comments .commentlist .resposta .add .info{background:#333; color:#eee;}
+.single .comments .commentlist .resposta .admin .info{background:#333; color:#fff;}
+.single .comments .commentlist .resposta .user .info strong{background:#069; color:#FFF; padding:14px; float:left; font-weight:200;}
+.single .comments .commentlist .resposta .user .info span{float:left; padding:14px;}
+.single .comments .commentlist .resposta .user img{float:right; padding:4px; background:#06F; margin:0;}
+
+.single .comments .commentlist .addresp{padding:8px 15px; text-decoration:none; background:#999; margin-top:15px; float:right; text-transform:uppercase; color:#fff;}
+.single .comments .commentlist .addresp:hover{background:#09F;}
+
+
+HTML COMMENTLIST VER.PHP 166 - 207
+<ul class="commentlist"> 
+
+	<li class="li">
+		<div class="user">
+			<img class="radius" src="http://0.gravatar.com/avatar/4161e253b6b48b7bc34e7fbd5cdc232f?s=60&d=monsterid&r=G" title="">
+			<div class="info"><strong>por</strong> <span>Marcos Silva</span> <strong>em</strong> <span>27/04/2013</span></div><!-- info -->
+		</div><!--/user -->
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc scelerisque est in nunc tristique in varius enim ultricies.</p>
+		<p>In quis odio sit amet lectus porta blandit non at ante. Nam lobortis tempus odio, faucibus venenatis lorem consequat eget.  Vivamus pretium congue sapien, eget sodales nibh faucibus at. Sed viverra malesuada volutpat. Suspendisse potenti. Aliquam accumsan auctor urna et facilisis. Etiam consectetur purus in sapien condimentum sit amet fringilla elit ultricies.</p>
+		<a href="#" class="addresp">Responder</a>               
+	</li><!--/li-->
+		  
+	
+	<li class="li">
+		<div class="user">
+			<img class="radius" src="http://0.gravatar.com/avatar/4161e253b6b48b7bc34e7fbd5cdc232f?s=60&d=monsterid&r=G" title="">
+			<div class="info"><strong>por</strong> <span>Fabio</span> <strong>em</strong> <span>27/04/2013</span></div><!-- info -->
+		</div><!--/user -->
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc scelerisque est in nunc tristique in varius enim ultricies.</p>
+		<p>In quis odio sit amet lectus porta blandit non at ante. Nam lobortis tempus odio, faucibus venenatis lorem consequat eget.  Vivamus pretium congue sapien, eget sodales nibh faucibus at. Sed viverra malesuada volutpat. Suspendisse potenti. Aliquam accumsan auctor urna et facilisis. Etiam consectetur purus in sapien condimentum sit amet fringilla elit ultricies.</p>
+		<a href="#" class="addresp">Responder</a>
+		
+		<ul class="resposta">
+			<li>
+				<div class="user">
+					<img class="radius" src="http://0.gravatar.com/avatar/4161e253b6b48b7bc34e7fbd5cdc232f?s=40&d=monsterid&r=G" title="">
+					<div class="info"><strong>resposta de</strong> <span>Angela</span> <strong>em</strong> <span>27/04/2013</span></div><!-- info -->
+				</div><!--/user -->
+					 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc scelerisque est in nunc tristique in varius enim ultricies.</p>
+					 <p>In quis odio sit amet lectus porta blandit non at ante. Nam lobortis tempus odio, faucibus venenatis lorem consequat eget.  Vivamus pretium congue sapien, eget sodales nibh faucibus at. Sed viverra malesuada volutpat. Suspendisse potenti. Aliquam accumsan auctor urna et facilisis. Etiam consectetur purus in sapien condimentum sit amet fringilla elit ultricies.</p>
+				<a href="#" class="addresp">Responder</a>
+			</li>
+			<li class="add">
+				<div class="user">
+					<img class="radius" src="http://0.gravatar.com/avatar/4161e253b6b48b7bc34e7fbd5cdc232f?s=40&d=monsterid&r=G" title="">
+					<div class="info"><strong>resposta de</strong> <span>Marcos</span> <strong>em</strong> <span>27/04/2013</span></div><!-- info -->
+				</div><!--/user -->
+					 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc scelerisque est in nunc tristique in varius enim ultricies.</p>
+					 <p>In quis odio sit amet lectus porta blandit non at ante. Nam lobortis tempus odio, faucibus venenatis lorem consequat eget.  Vivamus pretium congue sapien, eget sodales nibh faucibus at. Sed viverra malesuada volutpat. Suspendisse potenti. Aliquam accumsan auctor urna et facilisis. Etiam consectetur purus in sapien condimentum sit amet fringilla elit ultricies.</p>
+				<a href="#" class="addresp">Responder</a>
+			</li>
+			<li class="admin">
+				<div class="user">
+					<img class="radius" src="http://0.gravatar.com/avatar/4161e253b6b48b7bc34e7fbd5cdc232f?s=40&d=monsterid&r=G" title="">
+					<div class="info"><strong>resposta de</strong> <span>Robson V. Leite</span> <strong>em</strong> <span>27/04/2013</span></div><!-- info -->
+				</div><!--/user -->
+					 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc scelerisque est in nunc tristique in varius enim ultricies.</p>
+					 <p>In quis odio sit amet lectus porta blandit non at ante. Nam lobortis tempus odio, faucibus venenatis lorem consequat eget.  Vivamus pretium congue sapien, eget sodales nibh faucibus at. Sed viverra malesuada volutpat. Suspendisse potenti. Aliquam accumsan auctor urna et facilisis. Etiam consectetur purus in sapien condimentum sit amet fringilla elit ultricies.</p>
+				<a href="#" class="addresp">Responder</a>
+			</li>
+		</ul><!--/resposta-->
+		
+	</li><!--/li-->
+	
+</ul><!--/commentlist-->

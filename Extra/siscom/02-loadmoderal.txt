@@ -1,0 +1,177 @@
+<style type="text/css">
+body{background:#fff; padding:30px;}
+</style>
+//pages.css
+
++ 83
+.single .comments .commentlist .moderar{background:#FFB;}
+.single .comments .commentlist .moderar .alert{padding:20px; background:#09F; color:#fff; margin-bottom:30px; font-size:26px;}
+.single .comments .loadmorcomment{padding:20px; background:#06F; cursor:pointer; color:#fff; text-align:center; float:left; width:660px; font-size:22px;}
+.single .comments .loadmorcomment:hover{background:#00F;}
+.single .comments .loadmorcomment img{margin:0 10px 0 0;}
+
+
+//dts/functions.php 71. Substituir função: 
+
+function setViews($topicoId){
+	$topicoId = mysql_real_escape_string($topicoId);
+	$readArtigo = read('posts',"WHERE id = '$topicoId'");
+	
+	foreach($readArtigo as $artigo);
+		$views = $artigo['views'];
+		$views = $views +1;
+		$dataViews = array(
+			'views' => $views
+		);
+		update('posts',$dataViews,"id = '$topicoId'");
+}
+
+
+//blue/ver.php
+
++ 12
+setViews($p['id']);
+
+118 CHANGE <?php echo stripslashes($p['conteudo']);?>
+
++147
+
+<li class="li moderar moderajax" style="display:none;"></li> 
+
++ 149
+if($_COOKIE['MyContentComment']):
+	$email = base64_decode($_COOKIE['MyContentComment']);	
+	$readMail = read('comments',"WHERE post_id = '$p[id]' AND status IS NULL AND email = '$email' ORDER BY data DESC");
+	if($readMail) foreach($readMail as $mail):			
+		$matts = array('alt' => 'Avatar de '.$mail['nome'],'title' => 'Avatar de '.$mail['nome'],'class' => 'radius');
+		$mavatar = gravatar( $mail['email'],60,'mm','g',true,$matts);			
+		echo '<li class="li moderar">
+			<p class="alert">Olá <strong>'.$mail['nome'].'</strong>, seu comentário neste artigo esta sendo moderado, em breve liberaremos!</p>
+			<div class="user">
+				'.$mavatar.'
+				<div class="info"><strong>por</strong> <span>VOCÊ!</span> <strong>em</strong> <span>'.date('d/m/y H:i',strtotime($mail['data'])).'</span></div><!-- info -->
+			</div><!--/user -->
+			'.$mail['comentario'].'
+		</li><!--/li-->';				
+	endforeach;
+endif;
+
+182 $readResp == ORDER BY data ASC
+
+215
+$readCount = read('comments',"WHERE post_id = '$p[id]' AND status >= '1' AND resp_id IS NULL");
+if(count($readCount) > count($readComment)):
+	echo '<span class="loadmorcomment"><img src="'.BASE.'/themes/blue/images/loader2.gif" width="20" title="Carregando" alt="Carregando">CARREGAR MAIS COMENTÁRIOS!</a>';
+endif;
+
+//blue/swith/blue.php 407
+
+//Carrega moderates
+case 'load_moderate':
+	if($_COOKIE['MyContentComment']):
+		$email = base64_decode($_COOKIE['MyContentComment']);	
+		$postid	  = $_SESSION['useracess']['postid'];
+		$readMail = read('comments',"WHERE post_id = '$postid' AND status IS NULL AND email = '$email' ORDER BY data DESC");
+		if($readMail) foreach($readMail as $mail):			
+			$matts = array('alt' => 'Avatar de '.$mail['nome'],'title' => 'Avatar de '.$mail['nome'],'class' => 'radius', 'style' => 'display:block');
+			$mavatar = gravatar($mail['email'],60,'mm','g',true,$matts);			
+			echo '
+				<p class="alert">Olá <strong>'.$mail['nome'].'</strong>, seu comentário neste artigo esta sendo moderado, em breve liberaremos!</p>
+				<div class="user">
+					'.$mavatar.'
+					<div class="info"><strong>por</strong> <span>VOCÊ!</span> <strong>em</strong> <span>'.date('d/m/y H:i',strtotime($mail['data'])).'</span></div><!-- info -->
+				</div><!--/user -->
+				'.$mail['comentario'].'
+			';				
+		endforeach;
+	endif;	
+break;
+
+
+//count load more	
+case 'loadmore_btn':
+	sleep(1);
+	$postid	   = $_SESSION['useracess']['postid'];
+	$numlis	   = mysql_real_escape_string($_POST['conta']);
+	$readCount = read('comments',"WHERE post_id = '$postid' AND status >= '1' AND resp_id IS NULL LIMIT $numlis,6");
+	echo count($readCount);
+break;
+
+
+//loade more comments
+case 'loadmore_com':
+	$postid = mysql_real_escape_string(base64_decode($_POST['postid']));
+	$numcom = mysql_real_escape_string($_POST['numcom']);
+	$readComment = read('comments',"WHERE post_id = '$postid' AND status >= '1' AND resp_id IS NULL ORDER BY data DESC LIMIT $numcom,5");
+	if($readComment):
+		foreach($readComment as $com):
+			$atts = array('alt' => 'Avatar de '.$com['nome'],'title' => 'Avatar de '.$com['nome'],'class' => 'radius', 'style' => 'display:block');
+			$avatar = gravatar( $com['email'],60,'mm','g',true,$atts);
+			echo '
+			<li class="li comp" style="display:none;">
+				<div class="user">
+					'.$avatar.'
+					<div class="info"><strong>por</strong> <span>'.$com['nome'].'</span> <strong>em</strong> <span>'.date('d/m/y H:i',strtotime($com['data'])).'</span></div><!-- info -->
+				</div><!--/user -->
+				'.$com['comentario'].'
+				<a href="#" title="Responda '.$com['nome'].'" class="addresp" id="'.base64_encode($com['id']).'">Responder</a>						
+			';
+			
+				$postid	  = $_SESSION['useracess']['postid'];
+				$readResp = read('comments',"WHERE status = '2' AND post_id = '$postid' AND resp_id = '$com[id]' ORDER BY data ASC");
+				if($readResp):
+					//add and admin and null
+					echo '<ul class="resposta">';
+					foreach($readResp as $resp):
+					if($resp['isadmin']):
+						$readAdmin = read('usuarios',"WHERE id = '$resp[isadmin]'");
+						if($readAdmin) foreach($readAdmin as $a);
+						$resp['nome']  = $a['nome'];
+						$resp['email'] = $a['email'];
+					endif;
+													
+						$cc++;
+						$attsR = array('alt' => 'Avatar de '.$resp['nome'],'title' => 'Avatar de '.$resp['nome'],'class' => 'radius', 'style' => 'display:block');
+						$avatarR = gravatar( $resp['email'],42,'mm','g',true,$atts);
+						
+						echo '<li'; if($resp['isadmin']) echo ' class="admin" '; elseif($cc%2==0) echo ' class="add" '; echo '>';
+						echo '<div class="user">
+									'.$avatarR.'
+									<div class="info"><strong>por</strong> <span>'.$resp['nome'].'</span> <strong>em</strong> <span>'.date('d/m/y H:i',strtotime($resp['data'])).'</span></div><!-- info -->
+							  </div><!--/user -->
+							  '.$resp['comentario'].'
+							<a href="#" title="Responda '.$resp['nome'].'" class="addresp" id="'.base64_encode($resp['id']).'">Responder</a>	
+						</li>';
+					endforeach;	
+					echo '</ul><!--/resposta-->';
+				endif;					
+			echo '</li><!--/li-->';
+		endforeach;
+	endif;
+break;
+
+
+
+//blue.js
+
+
+199
+function loadmoderal(){
+	$.post(urlaction,{acao:'load_moderate'},function(resposta){
+		if(resposta){
+			$('.moderar').fadeOut("fast");
+			$('.moderajax').html(resposta);
+			$('html, body').animate({scrollTop:$('.comments').offset().top},500,function(){
+				$('.moderajax').fadeIn("slow");	
+			});	
+		}
+	});		
+}
+
+286
+loadmoderal();
+
+344
+loadmoderal();
+
+EXECUTAR LOADE MORE

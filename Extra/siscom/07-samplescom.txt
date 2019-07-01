@@ -1,0 +1,74 @@
+<style type="text/css">
+body{background:#fff; padding:30px;}
+</style>
+ADMIN/CSS PAGES.CSS
+
++ 155 (Abaixo de .comentarios )
+.comentarios .notfound{padding:30px; text-align:center; background:#FC0; color:#fff; font-size:26px; font-weight:600; margin-bottom:20px;}
+.comentarios .dellcom{padding:25px 0 35px 0; text-transform:uppercase; border-bottom:5px solid #000; position:fixed; top:0px; left:0px; z-index:99; width:100%; text-align:center; background:url(../img/bg-panel.jpg) repeat; color:#fff; font-size:18px; font-weight:400;}
+.comentarios .dellcom span{position:absolute; left:0; font-weight:bold; bottom:0px; padding:3px 0; width:100%; font-size:14px; cursor:pointer; background:rgba(0,153,0,0.3);}
+.comentarios .dellcom span:hover{background:rgba(255,0,0,0.3);}
+
+
+ADMIN/COMENTARIOS index.php
+
+de 33 a 40 (valida paginação - Substitue if(!$readComment): até o primeiro else:)
+if(!$readComment):
+	if($page > 1):						
+		$page = $page - 1;					
+		header('Location: dashboard.php?exe=comentarios/index&page='.$page);
+	else:
+		echo '<li class="notfound">Ainda não existem comentários em seu site!</li>';
+	endif;
+else:
+
+
+72 (Abaixo de echo '</ul><!--/comentários-->';)
+//PAGINACAO
+$link = 'dashboard.php?exe=comentarios/index&page=';
+readPaginator('comments', 'WHERE resp_id IS NULL AND isadmin IS NULL ORDER BY status ASC, data DESC', $maximo, $link, $page, '', '5', 'n','div');	
+
+
+SAMPLE APENAS PARA CONSULTA:
+
+$(function(){
+	var url = 'swith/painel.php';
+	
+	$('.dellcom span').click(function(){				
+		$.post(url,{acao:'mode_reses'},function(){
+			$('.dellcom').delay(300).slideUp('slow');	
+		});
+	});			
+});
+
+
+PAINEL .PHP
+
+//MATA SESSÃO AO FECHAR JANELA
+case 'mode_reses':
+	unset($_SESSION['dellecom']);
+break;
+
+
+//ADICIONA RESPOSTA ADMIN
+case 'mod_addadmin':
+
+echo '<li class="li admin" id="'.$ARTINSERT.'">';
+	echo '<div class="info">';
+		echo $ravatar;
+		echo '<span class="infor">Nova resposta de  <strong>'.$res['nome'].'</strong></span>';
+	echo '</div><!--/info-->';
+	
+	echo '<div class="text">';
+		echo $res['comentario'];
+	echo '</div><!--text-->';
+	
+	echo '<div class="actions">';
+			echo '<span class="data">Enviada dia <strong>'.date('d/m/Y',strtotime($res['data'])).'</strong> às <strong>'.date('H:i',strtotime($res['data'])).'</strong>hs</span>';
+				echo '<div class="moderate">';
+					echo '<a id="'.$res['id'].'" class="editar" href="#" title="Editar"><img src="img/manage/edit.png" title="Editar" alt="Editar" /></a>';
+					echo '<a id="'.$res['id'].'" class="deletar" href="#" title="Deletar"><img src="img/manage/delete.png" title="Delete" alt="Delete" /></a>';
+				echo '</div><!--moderate-->';
+	   echo '</div><!--/actions-->';         
+   echo '</li>';		
+break;

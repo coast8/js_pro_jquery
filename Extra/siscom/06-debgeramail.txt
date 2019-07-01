@@ -1,0 +1,28 @@
+<style type="text/css">
+body{background:#fff; padding:30px;}
+</style>
+<?php
+require('projeto/dts/configs.php');
+
+$msg = geraEmail(SITENAME,BASE.'/themes/blue/images/logotype.png',BASE.'/admin','Moderar Agora!','Olá Robson, Novo comentário de <strong>Marcelo Santos</strong> em <strong>Campeã do UFC, Ronda Rousey ataca no cinema em “Os Mercenários 3″</strong>','<p>Opa, acabei de ler que o lançamento será em breve. É isso? cara querendo muito ver esse filme, não vejo a hora. Esperar, esperar.</p><p>Acho que vi mais de 4 vezes cada um dos outros da série, tomara que esse me prenda assim também!</p>','36');
+//echo $msg;
+
+$comment = '<p>Olá João Alfredo, acho que sair um pouco da realidade e colocar ela em cenas de guerra vai ser muito legal. Concordo com o que você falou sim.</p><p>Mas veremos ela em outros palcos, e isso vai ser no minimo legal.</p>';
+
+$logotype = BASE.'/themes/blue/images/logotype.png';
+$mAssunto = 'Olá <strong>Robson V. Leite</strong>, infelizmente seu comentário foi reprovado! Você comentou em:';
+$mContent = '<p><strong>Seu Comentário:</strong></p><p>'.$comment.'</p><p style="font-size:12px"><strong>Mas porque isso? Temos algumas regras de aprovação em nosso site</strong>: Os comentários devem ser bem digitados, falar sobre o assunto do artigo de referência e não conter links, insultos ou conteúdo imprópio. Seu comentário provavelmente se encaixa em um destes motivos.</p><p>Mas não fique triste, apenas volte a nos visitar e comente novamente. Da próxima vai dar tudo certo! <strong>Estamos aqui esperando por você e suas opiniões!</strong></p>';
+$recusado = geraEmail(SITENAME,$logotype,BASE,'Aguardamos você!',$mAssunto,$mContent,36);
+//echo $recusado;
+
+$logotype = BASE.'/themes/blue/images/logotype.png';
+$mAssunto = 'Olá <strong>Robson V. Leite</strong>, Bem vindo ao '.SITENAME.', estamos aqui para informar que seu comentário foi aprovado. Você comentou em:';
+$mContent = '<p><strong>Seu Comentário:</strong></p><p>'.$comment.'</p>';
+$aprovado = geraEmail(SITENAME,$logotype,BASE,'Continue interajindo em nosso site',$mAssunto,$mContent,46);
+//echo $aprovado;
+
+$logotype = BASE.'/themes/blue/images/logotype.png';
+$mAssunto = 'Olá <strong>Robson V. Leite</strong>, seu comentário foi respondido por <strong>Marcos silva</strong>. Vocês estão conversando em:';
+$mContent = '<p><strong>Ele disse:</strong></p><p>'.$comment.'</p>';
+$respondido = geraEmail(SITENAME,$logotype,BASE.'/ver/aritgo','Clique aqui e responda',$mAssunto,$mContent,48);
+echo $respondido;

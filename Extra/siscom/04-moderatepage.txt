@@ -1,0 +1,149 @@
+<style type="text/css">
+body{background:#fff; padding:30px;}
+</style>
+<?php
+	$comid 		 = mysql_real_escape_string($_GET['commnet']);
+	$readComment = read('comments',"WHERE id = '$comid'");
+	if(!$readComment):
+		header('Location: dashboard.php?exe=comentarios/index&notfound=true');
+	else:
+		foreach($readComment as $com);
+		
+		$readArt = read('posts',"WHERE id = '$com[post_id]'");
+		if($readArt) foreach($readArt as $art);
+		
+		$atts = array('alt' => 'Avatar de '.$com['nome'],'title' => 'Avatar de '.$com['nome'],'class' => 'avatar');
+		$avatar = gravatar($com['email'],60,'mm','g',true,$atts);	
+	endif;
+?>
+
+<a href="#back" class="linkback j_back" title="voltar">Voltar</a>
+
+<div class="content home">
+    <h1 class="location">Moderar Comentário:<span><?php echo date('d/m/Y H:i');?></span></h1><!--/location-->
+    
+    <div class="commentmanage">
+		<div class="principal<?php if(!$com['status']) echo ' pendente';?>">
+        
+        	<div class="info">
+            	<?php echo $avatar;?>
+             	<span class="infor">De <strong><?php echo $com['nome'];?></strong> sobre <strong><a target="_blank" href="../ver/<?php echo $art['url'];?>"><?php echo lmWord($art['titulo'],70);?>...</a></strong></span>
+            </div><!--/info-->
+            
+               	<div class="text">
+                	<?php echo $com['comentario'];?>
+            	</div><!--text-->
+                
+                <div class="actions">
+                	<span class="data">Enviada dia <strong><?php echo date('d/m/Y',strtotime($com['data']));?></strong> às <strong><?php echo date('H:i',strtotime($com['data']));?></strong>hs</span>
+                    	<div class="moderate">
+                    		<a id="<?php echo $com['id'];?>" class="editar" href="#" title="Editar"><img src="img/manage/edit.png" title="Editar" alt="Editar" /></a>
+                    		<a id="<?php echo $com['id'];?>" class="deletar" href="#" title="Deletar"><img src="img/manage/delete.png" title="Delete" alt="Delete" /></a>
+                    		
+							<?php if(!$com['status']): ?>
+                            	<a id="<?php echo $com['id'];?>" class="aceitar" href="#" title="Aceitar Comentário"><img src="img/manage/moderate.png" title="Aceitar Comentário" alt="Aceitar Comentário" /></a>
+                    		<?php else: ?>
+                            	<a id="<?php echo $com['id'];?>" class="ocular" href="#" title="Ocultar Comentário"><img src="img/manage/active.png" title="Ocultar Comentário" alt="Ocultar Comentário" /></a>
+                			<?php endif;?>
+                		</div><!--moderate-->
+                </div><!--/actions-->
+                
+        </div><!--principal-->
+        
+        
+        <?php
+			$readResp = read('comments',"WHERE resp_id = '$com[id]' ORDER BY data ASC");
+			if($readResp):
+				echo '<ul class="respostas">';
+				foreach($readResp as $res):
+				
+				if($res['isadmin']):
+					$readAdmin = read('usuarios',"WHERE id = '$res[isadmin]'");
+					if($readAdmin) foreach($readAdmin as $a);
+					$res['nome']  = $a['nome'];
+					$res['email'] = $a['email'];
+				endif;
+				
+				$ratts = array('alt' => 'Avatar de '.$res['nome'],'title' => 'Avatar de '.$res['nome'],'class' => 'avatar');
+				$ravatar = gravatar($res['email'],60,'mm','g',true,$ratts);
+				
+				$class = ($res['isadmin'] ? ' admin' : (!$res['status'] ? ' pendente' : ''));
+		?>
+        	<li class="li<?php echo $class;?>">
+                <div class="info">
+                    <?php echo $ravatar;?>
+                    <span class="infor">Nova resposta de  <strong><?php echo $res['nome'];?></strong></span>
+                </div><!--/info-->
+
+				<div class="text">
+                	<?php echo $res['comentario'];?>
+            	</div><!--text-->
+                
+                <div class="actions">
+                	<span class="data">Enviada dia <strong><?php echo date('d/m/Y',strtotime($res['data']));?></strong> às <strong><?php echo date('H:i',strtotime($res['data']));?></strong>hs</span>
+                    	<div class="moderate">
+                    		<a id="<?php echo $res['id'];?>" class="editar" href="#" title="Editar"><img src="img/manage/edit.png" title="Editar" alt="Editar" /></a>
+                    		<a id="<?php echo $res['id'];?>" class="deletar" href="#" title="Deletar"><img src="img/manage/delete.png" title="Delete" alt="Delete" /></a>
+                    		
+							<?php if(!$res['status']): ?>
+                            	<a id="<?php echo $res['id'];?>" class="aceitar" href="#" title="Aceitar Comentário"><img src="img/manage/moderate.png" title="Aceitar Comentário" alt="Aceitar Comentário" /></a>
+                    		<?php else: ?>
+                            	<a id="<?php echo $res['id'];?>" class="ocular" href="#" title="Ocultar Comentário"><img src="img/manage/active.png" title="Ocultar Comentário" alt="Ocultar Comentário" /></a>
+                			<?php endif;?>
+                        </div><!--moderate-->
+                </div><!--/actions-->                    
+            </li>
+        <?php
+        		endforeach;
+				echo '</ul><!--/respostas-->';
+			endif;
+		?>
+        
+        <form name="addresposta" action="" method="post">
+        	<h3>Adicionar Resposta:</h3>
+            <textarea name="mensagem" rows="5"></textarea>
+            <input type="submit" value="Adicionar" class="btn" />
+        	<img class="load" src="img/loader.gif" alt="Carregando..." title="Carregando..." />
+        </form>
+	
+            
+    </div><!--/ commentmanage -->
+
+<div class="clear"></div><!-- /clear -->
+</div><!-- /content -->
+
+
+<div class="ajaxmoderate">
+	<div class="contentcom">
+        <p class="titulo">Moderar Comentário: <a href="#" class="j_closemoderal closemoderal">Fechar</a></p>
+        <div class="commentcom">
+        <?php
+            $comentario = str_replace('</p><p>',"\r\n",$com['comentario']);
+            $comentario = str_replace('<p>','',$comentario);
+            $comentario = str_replace('</p>','',$comentario);
+            
+            $atts = array('alt' => 'Avatar de '.$com['nome'],'title' => 'Avatar de '.$com['nome'],'class' => 'avatar');
+            $avatar = gravatar($com['email'],60,'mm','g',true,$atts);
+        
+            echo '<div class="info">';
+                echo $avatar;
+                echo '<span class="infor">De <strong>'.$com['nome'].'</strong> sobre:<a target="_blank" href="../ver/'.$art['url'].'">'.lmWord($art['titulo'],70).'...</a></span>';
+            echo '</div><!--/info-->';	
+            
+            echo '<form name="editcomment">';
+                echo '<label>';
+                    echo '<textarea name="comentario" rows="5">'.$comentario.'</textarea>';
+                echo '</label>';
+                
+				echo '<img class="loadcom" src="img/loader.gif" alt="Carregando" title="Carregando">';
+                echo '<input type="submit" value="Atualizar Comentário" class="btn" /> ';
+                
+                echo '<label>';
+                    echo '<input type="text" name="data" class="formDate" value="'.date('d/m/Y H:i:s',strtotime($com['data'])).'" />';
+                echo '</label>';			
+                
+            echo '</form>';
+        ?>
+        </div><!--commentcom-->
+    </div><!--contentcom-->
+</div><!--ajaxmoderate-->

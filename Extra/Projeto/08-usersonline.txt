@@ -1,0 +1,55 @@
+PAGES.CSS
+
+LINHA: 27
+.modaluseronline{position:fixed; display:none; z-index:99; background:#FFF; width:860px; height:560px; left:50%; top:50%; margin-left:-430px; margin-top:-280px;}
+.modaluseronline h3{padding:20px; background:#06F; font-size:20px; font-weight:400; text-transform:uppercase; color:#fff;}
+.modaluseronline h3 a{float:right; font-size:12px; font-weight:bold; text-decoration:none; color:#069; padding:8px 15px; background:#fff;}
+.modaluseronline h3 a:hover{background:#900; color:#fff;}
+.modaluseronline .content{padding:30px;}
+.modaluseronline .content .user_title{background:#06F; float:left; width:800px; border-color:#069; color:#FFF; font-weight:bold; text-transform:uppercase; font-size:14px;}
+.modaluseronline .content .user_title span{border-color:#069; float:left; padding:10px; width:100px;}
+.modaluseronline .content .user_footer{background:#06F; float:left; width:780px; text-align:center; padding:10px; color:#FFF; text-transform:uppercase; font-size:20px;}
+.modaluseronline .content ul{list-style:none; max-height:350px; overflow-x:hidden; display:block; float:left; width:800px;}
+.modaluseronline .content ul li{float:left; width:800px; border-bottom:3px solid #CCC;}
+.modaluseronline .content ul li span{float:left; padding:16px 10px; width:100px;}
+.modaluseronline .content ul li span:last-child{float:right; width:300px; font-size:12px; padding:10px;}
+.modaluseronline .content ul li a{color:#03F; text-decoration:none;}
+.modaluseronline .content ul .line{background:#fcfcfc;}
+
+PAINEL.CSS LINHA: 139
+#site .home .estatisticas .useronline{display:block; padding:10px; width:340px; text-decoration:none; text-transform:uppercase; text-align:center; color:#fff; float:left; background:#004262;}
+#site .home .estatisticas .useronline:hover{background:#09F;}
+
+HOME.PHP LINHA 49
+<a href="#" title="Ver usuários online agora!" class="useronline j_useronline"><strong>30</strong> Usuários Online Agora</a>
+
+MODAIS.PHP LINHA +3
+<div class="boxleft modaluseronline" style="display:block;">
+	<h3>Usuários online agora: <a href="#" class="j_closetrafic">Fechar</a></h3>
+	<div class="content"> 
+		<?php
+			echo '<div class="user_title">';
+				echo '<span>Usuários:</span>';
+				echo '<span>StartView:</span>';
+				echo '<span>EndView:</span>';
+				echo '<span>IP:</span>';
+				echo '<span>Local:</span>';
+			echo '</div>';
+			
+			echo '<ul class="useronlinelist">';
+				for($i=1;$i<=10;$i++):
+					$time = time();
+					echo '<li'; if($i%2==0) echo ' class="line"'; echo '>';
+						echo '<span>#'.$i.'</span>';
+						echo '<span>'.date('H:i',$time).'hs</span>';
+						echo '<span>'.date('H:i',$_SESSION['useracess']['time']).'hs</span>';
+						echo '<span>'.$_SERVER['REMOTE_ADDR'].'</span>';
+						echo '<span><a href="'.$_SERVER['REQUEST_URI'].'" target="_blank">'.$_SERVER['REQUEST_URI'].'</a></span>';
+					echo '</li>';
+				endfor;
+			echo '</ul>';
+			
+			echo '<div class="user_footer"><strong>10</strong> USUÁRIOS ONLINE AGORA!</div>';
+		?>                         
+	</div><!--/content-->
+</div><!--/modaltrafego-->

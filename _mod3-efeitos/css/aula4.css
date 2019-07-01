@@ -1,0 +1,4 @@
+body{font:14px "Trebuchet MS", Arial, Helvetica, sans-serif;}
+.exemplo{padding:20px; background:#069; color:#FFF; width:465px; text-align:center;}
+label{display:block; margin:10px 0; padding:10px; background:#ccc;}
+input, textarea{padding:5px; width:473px;}

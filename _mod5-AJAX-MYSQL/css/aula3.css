@@ -1,0 +1,6 @@
+*{font:14px "Trebuchet MS", Arial, Helvetica, sans-serif;}
+.exemplo{padding:20px; text-align:center; color:#FFF; background:#06F; margin-bottom:10px;}
+.exemplo strong{display:block; padding:3px; background:#FFF; color:#000; margin-bottom:5px;}
+.exemplo strong{min-height:18px; min-width:100px;}
+.exemplo a{color:#FFF; font-weight:bold;}
+.exemplo .off{background:red; color:#FFF; font-weight:bold;}
